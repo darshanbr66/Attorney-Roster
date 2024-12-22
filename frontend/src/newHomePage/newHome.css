@@ -1,0 +1,38 @@
+.header1{
+  margin: 0;
+  padding: 0;
+  background: skyblue;
+height: 50px;
+width:100%;
+display:flex;
+flex-direction: row;
+align-content: center;
+}
+.headerdiv1{
+  /* height: 50px; */
+  width: 100%;
+text-align: left;
+padding: 0;
+margin: 0;
+top: 0;
+}
+.headerdiv1 strong{
+  color: sandybrown;
+}
+.headerdiv2{
+  height: 50px;
+  width: 100%;
+text-align: left;
+padding: 0;
+margin: 0;
+top: 0;
+}
+.navBar{
+
+}
+.main1{
+
+}
+.footer1{
+
+}

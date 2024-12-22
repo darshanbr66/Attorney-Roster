@@ -1,0 +1,138 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  /* height: 100%; */
+  box-sizing: border-box;
+}
+.heroSection{
+    display: block;
+    background: linear-gradient(135deg, #007bff, hsl(263, 90%, 51%));
+}
+.logo strong{
+  color: rgb(255, 166, 0);
+}
+.divBtnNames{
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.logo{
+  align-content: center;
+  /* border: 1px solid black; */
+  text-align: center;
+  margin-left: 100px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  
+}
+.btnNames{
+    /* background: linear-gradient(135deg, #007bff, #6610f2); */
+    text-align: right;
+    padding: 20px;
+  }
+  .btnNames button{
+    width: auto;
+    padding: 10px;
+    background:  linear-gradient(135deg,#6610f2, #007bff);
+    border: 1px solid white;
+    border-radius: 5px;
+    margin: 5px;
+    transition: all 0.5s ease;
+  }
+  
+  button:hover{
+    background: linear-gradient(135deg, #007bff,#6610f2);
+  }
+  .btnNames button i{
+    padding: 0px 10px;
+  }
+.hero {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+    /* background: linear-gradient(135deg, #007bff, #6610f2); */
+    color: #fff;
+    text-align: center;
+    padding-top:150px;
+  }
+  
+  .hero-content h1 {
+    font-size: 4.5rem;
+    margin-bottom: 1rem;
+    font-weight: 900;
+  }
+  .hero-content h3 {
+    padding-top: 20px;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .hero-content p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-content .btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #fff;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .logo{
+      font-size: 1.5rem;
+      margin-left: 30px;
+      
+    }
+    .hero{
+      padding-top:100px;
+      height: 89vh;
+    }
+    .hero-content h1 {
+      font-size: 2rem;
+    }
+    .hero-content h3{
+      font-size: 1.5rem;
+    }
+    .hero-content p {
+      font-size: 1rem;
+    }
+    .btnNames{
+        /* background: linear-gradient(135deg, #007bff, #6610f2); */
+        text-align: right;
+        padding: 20px;
+      }
+      .btnNames button{
+        width: auto;
+        padding: 5px;
+        /* background: linear-gradient(to left, rgba(13, 3, 71, 0.938), rgba(29, 11, 133, 0.904)) ; */
+        border: 1px solid white;
+        margin: 2px;
+      }
+      .btnNames button i{
+        padding: 2px;
+      }
+      .btnNames button:hover{
+        background: linear-gradient(135deg, #007bff,#6610f2);
+      }
+  }
+  

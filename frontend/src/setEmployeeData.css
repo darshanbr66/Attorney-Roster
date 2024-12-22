@@ -1,0 +1,102 @@
+.App {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background: linear-gradient(to left, rgba(13, 3, 71, 0.938), rgba(29, 11, 133, 0.904));
+    display: block;
+  }
+  header{
+    height: 50px;
+    color: white;
+    background: linear-gradient(to left, rgba(29, 11, 133, 0.904), rgba(13, 3, 71, 0.938));
+  }
+  header h2{
+    font-size: 30px;
+  }
+  form{
+    height: 84vh;
+    padding: 10px;
+    margin-top: 2%;
+  }
+  
+  form #div1{
+    height: 200px;
+    width: fit-content;
+    padding: 30px 10px 10px 10px;
+    margin-top: 2%;
+    border: 0.5px solid white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* align-content: center; */
+    margin: auto;
+    background: linear-gradient(to left, rgba(13, 3, 71, 0.938), rgba(29, 11, 133, 0.904));
+  }
+  
+  input{
+    border: none;
+    width: 300px;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 50px;
+    text-align: center;
+    margin: 5px;
+    transition: all 0.3s ease;
+  }
+  input:hover{
+    background-color: rgba(247, 244, 244, 0.918);
+    
+  }
+  input:focus, #logBtn:focus {
+    outline: 2px solid rgba(6, 172, 6, 0.7);
+    /* outline-offset: 3px; */
+  }
+  
+  input::placeholder {
+    color: rgba(200, 200, 200, 0.7);
+  }
+  
+  #logBtn{
+    border: none;
+    width: 200px;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    margin: 5px;
+    background: rgb(6, 172, 6);
+    color: white;
+    font-size: 16px;
+    transition: all 0.3s ease;
+  }
+  
+  #logBtn:hover{
+    background-color: darkgreen;
+    color: white;
+  }
+  
+  footer {
+      height: 30px;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding:0;
+      bottom: 0;
+  }
+  
+  @media (max-width: 768px) {
+    form div {
+      width: 90%;
+      margin: auto;
+    }
+    input, #logBtn {
+      width: 100%;
+    }
+  }
+  
+
+  form h2{
+    color: white;
+  }
