@@ -30,7 +30,7 @@ console.log('inside server');
 app.use('/api', loginRoutes); 
 app.use('/api', employeeRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
