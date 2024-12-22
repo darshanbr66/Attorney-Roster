@@ -36,6 +36,7 @@ const UserTable = () => {
   const API_URL = process.env.REACT_APP_API_URL;
   const fetchUsers = () => {
     axios
+    // .get('http://localhost:3000/api/fetch-users')
       .get(`${API_URL}/api/fetch-users`)
       .then((response) => {
         setUsers(response.data.data);
