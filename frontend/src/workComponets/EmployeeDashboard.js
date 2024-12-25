@@ -219,7 +219,7 @@ const UserTable = () => {
       },
     });
   
-    doc.save("users_with_reduced_margins.pdf");
+    doc.save("users.pdf");
   };
  
 const showNMessage = () => {
