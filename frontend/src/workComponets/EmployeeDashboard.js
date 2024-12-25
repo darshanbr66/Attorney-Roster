@@ -188,14 +188,14 @@ const UserTable = () => {
       body: tableRows,
       theme: 'grid', // Ensures a grid layout with borders
       styles: {
-        fontSize: 3,
+        fontSize: 4,
         cellPadding: 0.5,
         overflow: 'linebreak',
       },
       headStyles: {
         fillColor: [22, 160, 133], // Header background color
         textColor: 255, // Header text color
-        fontSize: 4,
+        fontSize: 5,
         lineWidth: 0.1, // Enforces border line width
         lineColor: [200, 200, 200], // Light gray borders
       },
@@ -231,8 +231,9 @@ const UserTable = () => {
         21: { cellWidth: 12 },
         22: { cellWidth: 12 },
         23: { cellWidth: 10 },
-        24: { cellWidth: 10 },//linkdin
-        25: { cellWidth: 10 },//notes
+        24: { cellWidth: 10 },
+        25: { cellWidth: 10 },//linkdin
+        26: { cellWidth: 10 },//notes
         28: { cellWidth: 10 },
         // Adjust or add more columns if needed
       },
