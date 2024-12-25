@@ -211,6 +211,11 @@ const UserTable = () => {
         0: { cellWidth: 10 }, // Reduce width for _id
         1: { cellWidth: 6 },
         3: { cellWidth: 10 }, // Reduce width for slNo
+        15: { cellWidth: 8 },
+        16: { cellWidth: 10 },
+        23: { cellWidth: 10 },
+        24: { cellWidth: 10 },
+        28: { cellWidth: 10 },
         // Adjust or add more columns if needed
       },
       didDrawPage: (data) => {
