@@ -9,6 +9,7 @@ router.post("/check-login", async (req, res) => {
   console.log("Inside check-login route");
 
   const { userId, password, userType } = req.body;
+  console.log('admin user Id is:', userId)
 
   try {
     const user = await LoginModel.findOne({ userId, password, userType });

@@ -175,24 +175,59 @@ const UserTable = () => {
   };
 
   const downloadAsPDF = () => {
-    const doc = new jsPDF('landscape 10cm a3');
-    const tableColumn = Object.keys(users[0]);  
+    const doc = new jsPDF('landscape', 'mm', 'a3');
+  
+    // Extract table columns and rows
+    const tableColumn = Object.keys(users[0]);
     const tableRows = users.map(user => Object.values(user));
-
+  
+    // AutoTable configuration
     doc.autoTable({
+      margin: { top: 3, right: 3, bottom: 3, left: 3 }, // Reduce the outer margin
       head: [tableColumn],
       body: tableRows,
-      styles: { fontSize: 10 },
+      theme: 'grid', // Ensures a grid layout with borders
+      styles: {
+        fontSize: 4,
+        cellPadding: 0.5,
+        overflow: 'linebreak',
+      },
+      headStyles: {
+        fillColor: [22, 160, 133], // Header background color
+        textColor: 255, // Header text color
+        fontSize: 5,
+        lineWidth: 0.1, // Enforces border line width
+        lineColor: [200, 200, 200], // Light gray borders
+      },
+      drawCell: (data) => {
+        // Custom logic for rendering header borders
+        if (data.section === 'head') {
+          doc.setDrawColor(200, 200, 200); // Light gray border color
+          doc.setLineWidth(0.1); // Border thickness
+          doc.rect(data.cell.x, data.cell.y, data.cell.width, data.cell.height);
+        }
+      },
+      columnStyles: {
+        0: { cellWidth: 20 }, // Reduce width for _id
+        1: { cellWidth: 6 }, // Reduce width for slNo
+        // Adjust or add more columns if needed
+      },
+      didDrawPage: (data) => {
+        const pageCount = doc.internal.getNumberOfPages();
+        doc.setFontSize(10);
+        doc.text(`Page ${data.pageNumber} of ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
+      },
     });
-
-    doc.save("users.pdf");
+  
+    doc.save("users_with_reduced_margins.pdf");
   };
+ 
 const showNMessage = () => {
   alert('Not Permited');
   // return showNMessage;
 }
 
-  const navigate = useNavigate();
+const navigate = useNavigate();
   function gohome(){
     navigate('/');
   }
