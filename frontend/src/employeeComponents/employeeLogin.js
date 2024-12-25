@@ -28,7 +28,7 @@ function LoginPage() {
       
       if (response.status === 200) {
         alert('Login successful!');
-        navigate('/EmployeeDashBoard'); 
+        navigate('/EmployeeDashBoard', { state:{ userId }}); 
       } else {
         alert('Invalid credentials. Please try again.');
       }

@@ -2,8 +2,8 @@ const express = require("express");
 const UserModel = require("../models/User"); 
 const xlsx = require("xlsx");
 const path = require("path");
-const router = express.Router();
 
+const router = express.Router();
 
 router.post("/add-user", async (req, res) => {
   const { slNo: nextSlNo,
@@ -82,8 +82,6 @@ router.post("/add-user", async (req, res) => {
     res.status(500).json({ error: "An error occurred while adding user." });
   }
 });
-
-
 
 router.put("/update-user/:slNo", async (req, res) => {
   const { slNo } = req.params;
@@ -266,14 +264,32 @@ router.put("/update-users", async (req, res) => {
 
 router.get("/fetch-users", async (req, res) => {
   try {
-    const users = await UserModel.find();  
+    const userId = req.query.userId;
+    console.log("Received userId:", userId);
+
+    // Check if userId exists in the query
+    if (!userId) {
+      console.error("No userId provided");
+      return res.status(400).json({ error: "UserId is required" });
+    }
+
+    // Query the database
+    const users = await UserModel.find({userId: userId});
+    // console.log("Fetched users:", users);
+
+    // Check if users are found
+    if (!users.length) {
+      console.error(`No data found for userId: ${userId}`);
+      return res.status(404).json({ message: "No data found for this userId" });
+    }
+
     res.status(200).json({
-      message: "Users fetched successfully",
+      message: "Data fetched successfully",
       data: users,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "An error occurred while fetching users." });
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: "An error occurred while fetching data." });
   }
 });
 

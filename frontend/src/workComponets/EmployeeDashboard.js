@@ -5,9 +5,13 @@ import "jspdf-autotable";
 import axios from "axios";
 import "./EmployeeDashboard.css"; 
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
+  const location = useLocation();
+  const userId = location.state?.userId;
+
   const [filter, setFilter] = useState("");
   const [editedUsers, setEditedUsers] = useState({});
   const [newUser, setNewUser] = useState({ name: "", addressLine1: "", addressLine2: "" });
@@ -28,22 +32,28 @@ const UserTable = () => {
       alert('Data saved succesfully')
    
   };
-
   
   useEffect(() => {
     fetchUsers();
   }, []);
   const API_URL = process.env.REACT_APP_API_URL;
   const fetchUsers = () => {
+    const userId = location.state.userId; // Assuming you're using React Router's location.state
+    console.log("UserId being sent to backend:", userId);
+  
     axios
-    // .get('http://localhost:3000/api/fetch-users')
-      .get(`${API_URL}/api/fetch-users`)
+    .get(`${API_URL}/api/fetch-users?userId=${userId}`)
+      // .get(`http://localhost:3000/api/fetch-users?userId=${userId}`)
       .then((response) => {
-        setUsers(response.data.data);
-        console.log(response);
+        console.log("Response from backend:", response.data);
+        setUsers(response.data.data); // Assuming 'data' contains the fetched data
       })
-      .catch((error) => console.error("Error fetching users:", error));
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
   };
+  
+  
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
@@ -66,7 +76,9 @@ const UserTable = () => {
     }));
 
     axios
-      .put(`${process.env.REACT_APP_API_URL}/api/update-users", update`)
+    
+    .put('http://localhost:3000/api/update-users', updates)
+      // .put(`${process.env.REACT_APP_API_URL}/api/update-users`, update)
       .then((response) => {
         console.log(response.data.message);
         setUsers(response.data.data);
@@ -91,7 +103,9 @@ const UserTable = () => {
     console.log("Adding user:", newUser);
 
   axios
-  .post(`${process.env.REACT_APP_API_URL}/api/add-user", newUse`)
+  
+  .post('http://localhost:3000/api/add-user', newUser)
+  // .post(`${process.env.REACT_APP_API_URL}/api/add-user`, newUser)
   .then((response) => {
   console.log(response.data.message);
   fetchUsers();
