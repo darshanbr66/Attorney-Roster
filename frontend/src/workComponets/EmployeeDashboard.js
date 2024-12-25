@@ -210,6 +210,7 @@ const UserTable = () => {
       columnStyles: {
         0: { cellWidth: 10 }, // Reduce width for _id
         1: { cellWidth: 6 },
+        2: { cellWidth: 12 },
         3: { cellWidth: 12 }, // Reduce width for slNo
         4: { cellWidth: 13 },
         5: { cellWidth: 13 },
@@ -232,9 +233,11 @@ const UserTable = () => {
         22: { cellWidth: 12 },
         23: { cellWidth: 10 },
         24: { cellWidth: 10 },
-        25: { cellWidth: 10 },//linkdin
+        25: { cellWidth: 15 },//linkdin
         26: { cellWidth: 10 },//notes
-        28: { cellWidth: 10 },
+        27: { cellWidth: 10 },//initials
+        28: { cellWidth: 15 },//dateUpdatedAsOn
+        29: { cellWidth: 15 },
         // Adjust or add more columns if needed
       },
       didDrawPage: (data) => {
