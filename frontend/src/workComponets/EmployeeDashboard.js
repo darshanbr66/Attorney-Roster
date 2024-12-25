@@ -210,11 +210,29 @@ const UserTable = () => {
       columnStyles: {
         0: { cellWidth: 10 }, // Reduce width for _id
         1: { cellWidth: 6 },
-        3: { cellWidth: 10 }, // Reduce width for slNo
-        15: { cellWidth: 8 },
-        16: { cellWidth: 10 },
+        3: { cellWidth: 12 }, // Reduce width for slNo
+        4: { cellWidth: 13 },
+        5: { cellWidth: 13 },
+        6: { cellWidth: 10 }, //city
+        7: { cellWidth: 8 },
+        8: { cellWidth: 10 }, //country
+        10: { cellWidth: 15 },
+        11: { cellWidth: 10 }, //reg Cod
+        12: { cellWidth: 15 },
+        13: { cellWidth: 15 },
+        14: { cellWidth: 15 },//agentLicensed       
+        15: { cellWidth: 10 },
+        16: { cellWidth: 11 },//updated phone number
+        17: { cellWidth: 12 }, //email
+        18: { cellWidth: 10 }, //updated organization
+        18: { cellWidth: 10 },//firmUrl
+        19: { cellWidth: 12 },//updatedAddress        
+        20: { cellWidth: 11 },
+        21: { cellWidth: 12 },
+        22: { cellWidth: 12 },
         23: { cellWidth: 10 },
-        24: { cellWidth: 10 },
+        24: { cellWidth: 10 },//linkdin
+        25: { cellWidth: 10 },//notes
         28: { cellWidth: 10 },
         // Adjust or add more columns if needed
       },
