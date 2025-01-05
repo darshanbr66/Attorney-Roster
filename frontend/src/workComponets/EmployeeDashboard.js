@@ -97,56 +97,69 @@ const UserTable = () => {
 
   const handleAddUser = () => {
     if (!newUser.name || !newUser.addressLine1) {
-      alert("Please fill all required fields.");
-      return;
+        alert("Please fill all required fields.");
+        return;
     }
 
-    // console.log("Adding user:", newUser);
     const dataToSend = { ...newUser, userId };
 
     console.log("Adding user:", dataToSend);
-  axios
 
-  .post('http://localhost:3000/api/add-user', dataToSend)
-  // .post(`${process.env.REACT_APP_API_URL}/api/add-user`, newUser)
-  .then((response) => {
-  console.log(response.data.message);
-  fetchUsers();
-  setNewUser({ 
-        slNo: "",
-        name: "", 
-        addressLine1: "", 
-        addressLine2: "",
-        city: "",
-        state: "",
-        country: "",
-        zipcode: "",
-        phoneNumber: "",
-        regCode: "",
-        agentAttorney: "",
-        dateOfPatent: "",
-        agentLicensed: "",
-        firmOrOrganization: "",
-        updatedPhoneNumber: "",
-        emailAddress: "",
-        updatedOrganization: "",
-        firmUrl: "",
-        updatedAddress: "",
-        updatedCity: "",
-        updatedState: "",
-        updatedCountry: "",
-        updatedZipcode: "",
-        linkedInProfile: "",
-        notes: "",
-        initials: "",
-        dataUpdatedAsOn: ""
-   });
-  })
-  .catch((error) => {
-      console.error("Error adding user:", error);
-      alert("Failed to add user. Please try again.");
-    });
-  };
+    axios
+        .post('http://localhost:3000/api/add-user', dataToSend)
+        .then((response) => {
+            console.log(response.data.message);
+            fetchAllUsers(); // Refresh the user list after adding a new user
+            setNewUser({
+                slNo: "",
+                name: "",
+                addressLine1: "",
+                addressLine2: "",
+                city: "",
+                state: "",
+                country: "",
+                zipcode: "",
+                phoneNumber: "",
+                regCode: "",
+                agentAttorney: "",
+                dateOfPatent: "",
+                agentLicensed: "",
+                firmOrOrganization: "",
+                updatedPhoneNumber: "",
+                emailAddress: "",
+                updatedOrganization: "",
+                firmUrl: "",
+                updatedAddress: "",
+                updatedCity: "",
+                updatedState: "",
+                updatedCountry: "",
+                updatedZipcode: "",
+                linkedInProfile: "",
+                notes: "",
+                initials: "",
+                dataUpdatedAsOn: ""
+            });
+        })
+        .catch((error) => {
+            console.error("Error adding user:", error);
+            alert("Failed to add user. Please try again.");
+        });
+};
+
+// Function to fetch all users
+const fetchAllUsers = () => {
+    axios
+        .get('http://localhost:3000/api/fetch-users') // Assuming the endpoint fetches the latest users
+        .then((response) => {
+            console.log("Fetched users:", response.data);
+            setUsers(response.data.data); // Assuming 'data' is the array of users
+        })
+        .catch((error) => {
+            console.error("Error fetching users:", error);
+            alert("Failed to fetch users. Please try again.");
+        });
+};
+
   // console.log('updatedPhoneNumber:',users.updatedPhoneNumber);
   const handleSelectAll = (e) => {
     const isChecked = e.target.checked;
