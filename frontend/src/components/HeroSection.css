@@ -11,10 +11,11 @@ html, body {
 }
 .heroSection{
     display: block;
-    background: linear-gradient(135deg, #007bff, hsl(263, 90%, 51%));
+    background: linear-gradient(135deg,hsl(263, 90%, 51%), #007bff );
 }
-.logo strong{
-  color: rgb(255, 166, 0);
+.logo img{
+  height: 80px;
+  width: 80px;
 }
 .divBtnNames{
   display: flex;
@@ -29,7 +30,7 @@ html, body {
   font-size: 40px;
   font-weight: bold;
   color: white;
-  
+
 }
 .btnNames{
     /* background: linear-gradient(135deg, #007bff, #6610f2); */
@@ -39,13 +40,13 @@ html, body {
   .btnNames button{
     width: auto;
     padding: 10px;
-    background:  linear-gradient(135deg,#6610f2, #007bff);
+    background: linear-gradient(135deg,#6610f2, #007bff);
     border: 1px solid white;
     border-radius: 5px;
     margin: 5px;
     transition: all 0.5s ease;
   }
-  
+
   button:hover{
     background: linear-gradient(135deg, #007bff,#6610f2);
   }
@@ -62,7 +63,7 @@ html, body {
     text-align: center;
     padding-top:150px;
   }
-  
+
   .hero-content h1 {
     font-size: 4.5rem;
     margin-bottom: 1rem;
@@ -75,12 +76,12 @@ html, body {
     font-weight: 600;
     font-family: Arial, Helvetica, sans-serif;
   }
-  
+
   .hero-content p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
   }
-  
+
   .hero-content .btn {
     padding: 0.75rem 1.5rem;
     background-color: #fff;
@@ -90,18 +91,18 @@ html, body {
     font-weight: bold;
     transition: background-color 0.3s, color 0.3s;
   }
-  
+
   .btn:hover {
     background-color: #007bff;
     color: #fff;
   }
-  
+
   /* Responsive Design */
   @media (max-width: 768px) {
     .logo{
       font-size: 1.5rem;
       margin-left: 30px;
-      
+
     }
     .hero{
       padding-top:100px;
@@ -135,4 +136,3 @@ html, body {
         background: linear-gradient(135deg, #007bff,#6610f2);
       }
   }
-  

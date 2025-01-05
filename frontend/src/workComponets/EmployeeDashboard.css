@@ -1,6 +1,14 @@
 .header12{
   text-align: center;
-  width: 7095px;
+  width: 7250px;
+  /* min-width: none; */
+  /* min-width: 100vb; */
+  /* max-width: auto; */
+  justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  cursor: pointer;
 }
 .main3{
   /* background: linear-gradient(135deg,#6610f2, #007bff); */
@@ -19,11 +27,11 @@
     text-align: right;
     margin:0;
     font-family: Arial, sans-serif;
-    width: 7095px;
+    width: 7250px;
     display: flex;
     justify-content:space-between;
     flex-grow: 1;
-   
+
   }
   .Filter-Block1{
     align-content: center;
@@ -52,13 +60,13 @@
     border-radius: 4px;
     color: black;
   }
-  
+
   .user-table {
     width: 100%;
     border-collapse: collapse;
     margin: 20px 0;
-    /* table-layout: auto;  */
-    /* overflow-wrap: break-word;  */
+    /* table-layout: auto; */
+    /* overflow-wrap: break-word; */
 }
 
 .user-table th, .user-table td {
@@ -67,21 +75,21 @@
     text-align: center;
     white-space: nowrap; 
     /* overflow: hidden; */
-    /* text-overflow: ellipsis;  */
+    /* text-overflow: ellipsis; */
 }
-  
+
   .user-table th {
     background-color: #f4f4f4;
     font-weight: bold;
   }
-  
+
   .editable-input {
     width: auto;
     padding: 5px;
     border: 1px solid #ddd;
     border-radius: 4px;
   }
-  
+
   .Save-button {
     display: block;
     margin: 20px auto;
@@ -93,7 +101,7 @@
     cursor: pointer; 
     border-radius: 20px;
   }
-  
+
   .Save-button:hover {
     background-color: #0056b3;
   }
@@ -111,7 +119,7 @@
     display: flex;
     flex-direction: row;
   }
- 
+
   .add-user-button {
     display: block;
     margin: 20px ;
@@ -123,7 +131,7 @@
     cursor: pointer; 
     border-radius: 20px;
   }
-  
+
   .add-user-button:hover {
     background-color: darkgreen;
   }
@@ -139,8 +147,8 @@
     width: 100%;
     border-collapse: collapse;
     /* margin: 20px 0; */
-    /* table-layout: auto;  */
-    /* overflow-wrap: break-word;  */
+    /* table-layout: auto; */
+    /* overflow-wrap: break-word; */
 }
 
 .user-table2 td {
@@ -148,9 +156,9 @@
     padding: 8px;
     text-align: center;
     width: auto;
-    /* white-space: nowrap;  */
+    /* white-space: nowrap; */
     /* overflow: hidden; */
-    /* text-overflow: ellipsis;  */
+    /* text-overflow: ellipsis; */
 }
 .user-table2 td input{
   border-radius: 2px;

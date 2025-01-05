@@ -9,9 +9,9 @@ mongoose.connect( process.env.MONGO_URI, {
 });
 
 const admins = [
-  { name:'Yashaswini', userId: "Yashaswini", password: "Yashaswini@123", userType:'admin' },
-  { name:'Darshan', userId: "Darshanbr66", password: "Darshanbr66@123", userType:'admin' },
-  { name: 'Example', userId: "Example1", password: "Example1@123", userType:'admin' },
+  { name:'Admin', userId: "newAdmin", password: "Admin@123", userType:'admin' },
+  // { name:'Darshan', userId: "Darshanbr66", password: "Darshanbr66@123", userType:'admin' },
+  // { name: 'Example', userId: "Example1", password: "Example1@123", userType:'admin' },
 ];
 
 

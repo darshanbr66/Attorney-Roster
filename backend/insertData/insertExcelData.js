@@ -16,8 +16,6 @@ const insertDataFromExcel = async () => {
 
     // Define file paths
     const filePaths = [
-      "C:/Users/ADMIN/OneDrive/Desktop/Task/backend/insertData/ActiveAttorneyRoster1.xlsx",
-      "C:/Users/ADMIN/OneDrive/Desktop/Task/backend/insertData/ActiveAttorneyRoster2.xlsx",
       "C:/Users/ADMIN/OneDrive/Desktop/Task/backend/insertData/ActiveAttorneyRoster3.xlsx"
     ];
 
@@ -46,7 +44,7 @@ const insertDataFromExcel = async () => {
         dateOfPatent: row["Date of Patent Agent Licensed "],
         agentLicensed: row["Date of Patent Attorney Licensed"],
         firmOrOrganization: row["Firm or Organization"],
-        updatedPhoneNumber: row["Updated  Phone Number"],
+        updatedPhoneNumber: row["Updated Phone Number"],
         emailAddress: row["Email Address"],
         updatedOrganization: row["Updated Organization/Law Firm Name"],
         firmUrl: row["Firm/Organization URL"],

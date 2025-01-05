@@ -1,8 +1,7 @@
-
 header{
   height: 50px;
   color: white;
-  background:  linear-gradient(135deg,#6610f2, #007bff);
+  background: linear-gradient(135deg,#6610f2, #007bff);
   top:0;
 }
 header h2{
@@ -19,7 +18,7 @@ main h3{
 }
 form{
   height: 90vh;
-  
+
   padding: 10px;
   margin-top: 2%;
 }
@@ -36,7 +35,7 @@ form #div1{
   align-items: center;
   /* align-content: center; */
   margin: auto;
-  background:  linear-gradient(135deg,#6610f2, #007bff);
+  background: linear-gradient(135deg,#6610f2, #007bff);
 }
 
 input{
@@ -51,7 +50,7 @@ input{
 }
 input:hover{
   background-color: rgba(247, 244, 244, 0.918);
-  
+
 }
 
 
@@ -66,14 +65,14 @@ button{
   border-radius: 20px;
   text-align: center;
   margin: 5px;
-  background:  linear-gradient(135deg,#6610f2, #007bff);
+  background: linear-gradient(135deg,#6610f2, #007bff);
   color: white;
   font-size: 16px;
   transition: all 0.3s ease;
 }
 
 button:hover{
-  background:  linear-gradient(135deg,#007bff, #6610f2);
+  background: linear-gradient(135deg,#007bff, #6610f2);
   color: white;
 }
 button:focus{
@@ -93,9 +92,9 @@ footer {
   form div {
     width: 90%;
     margin: auto;
-    
+
   }
-  input  {
+  input {
     width: 150px;
   }
   input::placeholder{

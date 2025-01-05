@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './App.css';
 import 'font-awesome/css/font-awesome.min.css';
 import axios from 'axios';
+import { motion } from "framer-motion";
 
 function LoginPage() {
   const [userId, setUserId] = useState('');
@@ -19,25 +20,25 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-  
+
     if (!userId || !password) {
       alert('Please enter both User ID and Password');
       return;
     }
-  
+
     setLoading(true);
-  
+
     const API_URL = process.env.REACT_APP_API_URL;
-  
+
     try {
-      const response = await axios.post(`${API_URL}/api/check-login`, { userId, password, userType });
-      // const response = await axios.post('http://localhost:3000/api/check-login', { userId, password, userType });
+      // const response = await axios.post(`${API_URL}/api/check-login`, { userId, password, userType });
+      const response = await axios.post('http://localhost:3000/api/check-login', { userId, password, userType });
 
       // console.log("Login Response:", response);
-  
+
       if (response.status === 200) {
         // Save token or user info to localStorage
-        localStorage.setItem('authToken', response.data.token);  // Assuming a token is returned
+        localStorage.setItem('authToken', response.data.token); // Assuming a token is returned
         console.log('User saved to localStorage:', response.data.user);
 
         const user = JSON.parse(localStorage.getItem('user'));
@@ -58,19 +59,29 @@ function LoginPage() {
       setLoading(false);
     }
   };
-  
+
 
   function gohome() {
     navigate('/');
   }
+  function goBack() {
+    navigate('/HomePage');
+  }
+
 
   return (
     <div className="App">
-      <header>
-        <h2 onClick={gohome}>
-          Si<strong>g</strong>vitas
-        </h2>
+      <motion.divBtnNames
+                  initial={{ y: -50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 2.5}}
+                >
+      <header id='headerFlex'>
+      <button onClick={goBack}> <i class="fa-solid fa-backward"></i> Go Back</button>
+        <img onClick={gohome} src="../Triangle-IP-Logo.png" ></img>
+        <button> <i class="fa-solid fa-house"></i> Home</button>
       </header>
+      </motion.divBtnNames>
       <main>
       <h3>Admin Login</h3>
         <form onSubmit={handleLogin}>
@@ -95,7 +106,7 @@ function LoginPage() {
               <span id='toggle'
                 onClick={togglePasswordVisibility}
                 className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
-                
+
               />
             </div>
             <br />

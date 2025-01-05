@@ -14,7 +14,7 @@ const UserTable = () => {
 
   const [filter, setFilter] = useState("");
   const [editedUsers, setEditedUsers] = useState({});
-  const [newUser, setNewUser] = useState({ name: "", addressLine1: "", addressLine2: "" });
+  const [newUser, setNewUser] = useState({});
   const [selectAll, setSelectAll] = useState(false);
   const [loading, setLoading] = useState(false);
   const [downloadFormat, setDownloadFormat] = useState("");
@@ -28,22 +28,25 @@ const UserTable = () => {
   };
 
   const updatingSaveButton = () => {
-    
+
       alert('Data saved succesfully')
-   
+
   };
-  
+
   useEffect(() => {
     fetchUsers();
   }, []);
+
   const API_URL = process.env.REACT_APP_API_URL;
+
   const fetchUsers = () => {
     const userId = location.state.userId; // Assuming you're using React Router's location.state
     console.log("UserId being sent to backend:", userId);
-  
+
     axios
-    .get(`${API_URL}/api/fetch-users?userId=${userId}`)
-      // .get(`http://localhost:3000/api/fetch-users?userId=${userId}`)
+
+      .get(`http://localhost:3000/api/fetch-users?userId=${userId}`)
+      // // .get(`${API_URL}/api/fetch-users?userId=${userId}`)
       .then((response) => {
         console.log("Response from backend:", response.data);
         setUsers(response.data.data); // Assuming 'data' contains the fetched data
@@ -52,8 +55,6 @@ const UserTable = () => {
         console.error("Error fetching users:", error);
       });
   };
-  
-  
 
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
@@ -70,18 +71,18 @@ const UserTable = () => {
   };
 
   const handleUpdateAll = () => {
-    const updates = Object.keys(editedUsers).map((id) => ({   //Object.keys() is a JavaScript method that takes an object and returns an array containing all the keys (or property names) of that object.
-      slNo: parseInt(id),  
-      ...editedUsers[id],
+    const updates = users.map((user, index) => ({
+      slNo: user.slNo, // Assuming slNo is unique for each user
+      ...editedUsers[user.slNo] || {}, // Spread the edited fields
     }));
 
+    console.log("Sending updates to backend:", updates); // Add this line to verify the updates
+
     axios
-    
-    .put('http://localhost:3000/api/update-users', updates)
-      // .put(`${process.env.REACT_APP_API_URL}/api/update-users`, update)
+      .put('http://localhost:3000/api/update-users', updates)
       .then((response) => {
         console.log(response.data.message);
-        setUsers(response.data.data);
+        fetchUsers(); // Refresh users after update
         setEditedUsers({});
       })
       .catch((error) => console.error("Error updating users:", error));
@@ -99,11 +100,11 @@ const UserTable = () => {
       alert("Please fill all required fields.");
       return;
     }
-  
+
     console.log("Adding user:", newUser);
 
   axios
-  
+
   .post('http://localhost:3000/api/add-user', newUser)
   // .post(`${process.env.REACT_APP_API_URL}/api/add-user`, newUser)
   .then((response) => {
@@ -144,19 +145,20 @@ const UserTable = () => {
       alert("Failed to add user. Please try again.");
     });
   };
-  
+  // console.log('updatedPhoneNumber:',users.updatedPhoneNumber);
   const handleSelectAll = (e) => {
     const isChecked = e.target.checked;
     setSelectAll(isChecked); 
     setUsers(users.map((user) => ({ ...user, isChecked }))); 
   };
-  
+
   const handleCheckboxChange = (id, isChecked) => {
     setUsers(users.map((user) => (user.slNo === id ? { ...user, isChecked } : user)));
-    
+
     const allSelected = users.every((user) => user.slNo === id ? isChecked : user.isChecked);
     setSelectAll(allSelected);
   };
+
    const handleDownload = () => {
     if (downloadFormat === "xlsx") {
       downloadAsExcel();
@@ -173,14 +175,14 @@ const UserTable = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Users");
     XLSX.writeFile(workbook, "users.xlsx");
   };
-
+//in A3 it's looks good
   const downloadAsPDF = () => {
     const doc = new jsPDF('landscape', 'mm', 'a3');
-  
+
     // Extract table columns and rows
     const tableColumn = Object.keys(users[0]);
     const tableRows = users.map(user => Object.values(user));
-  
+
     // AutoTable configuration
     doc.autoTable({
       margin: { top: 3, right: 3, bottom: 3, left: 3 }, // Reduce the outer margin
@@ -246,28 +248,38 @@ const UserTable = () => {
         doc.text(`Page ${data.pageNumber} of ${pageCount}`, data.settings.margin.left, doc.internal.pageSize.height - 10);
       },
     });
-  
+
     doc.save("users.pdf");
   };
- 
+
 const showNMessage = () => {
   alert('Not Permited');
   // return showNMessage;
 }
 
 const navigate = useNavigate();
-  function gohome(){
-    navigate('/');
+function gohome() {
+  const userConfirmed = window.confirm('Do you want to exit?');
+  if (userConfirmed) {
+        navigate('/');
+  } else {
+    console.log('User chose to stay on the page.');
   }
+}
+
+
   return (
     <div>
       <header className="header12">
-        <h2 onClick={gohome}>Si<strong>g</strong>vitas</h2>
+      <img onClick={gohome} src="../Triangle-IP-Logo.png" ></img>
+      <img onClick={gohome} src="../Triangle-IP-Logo.png" ></img>
+      <img onClick={gohome} src="../Triangle-IP-Logo.png" ></img>
+        {/* <i  onClick={gohome} class="fa-solid fa-house"></i> */}
       </header>
 
      <main className="main3">
      <div className="user-table-container">
-      
+
       <div className='Filter-Block'>
         <div className="Filter-Block1"> 
           <h2 className="title">User Management</h2>
@@ -293,12 +305,12 @@ const navigate = useNavigate();
         <option value="xlsx">Excel</option>
         <option value="pdf">PDF</option>
       </select>
-      <button onClick={handleDownload} className="Download-button">
+      <button onClick={handleDownload} className="Download-button" style={{cursor:'pointer'}}>
         Download
       </button>
-      
+
     </div>
-    <button onClick={handleUpdateAll}>
+    <button onClick={handleUpdateAll} style={{cursor:'pointer'}}>
     Save
   </button>
         </div>
@@ -308,11 +320,11 @@ const navigate = useNavigate();
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-   
+
   }}
 >
-  
-  
+
+
     </div>
       <table className="user-table">
         <thead>
@@ -324,7 +336,7 @@ const navigate = useNavigate();
 
             <th>Sl No</th>
             <th>Name</th>
-            <th>Organization/Law Firm Name</th>
+            <th>Organization</th>
             <th>Address Line 1</th>
             <th>Address Line 2</th>
             <th>City</th>
@@ -333,12 +345,12 @@ const navigate = useNavigate();
             <th>Zipcode</th>
             <th>Phone Number</th>
             <th>Reg Code </th>
-            <th>Agent/Attorney</th>
+            <th>Attorney</th>
             <th>Date of Patent</th>
             <th>Agent Licensed</th>
             <th>Firm or Organization</th>
-            <th>Email Address</th>
             <th>Updated Phone Number</th>
+            <th>Email Address</th>
             <th>Updated Organization/Law Firm Name</th>
             <th>Firm/Organization URL</th>
             <th>Updated Address</th>
@@ -360,350 +372,355 @@ const navigate = useNavigate();
               />
             </th>
 
-            <th>EditingSaveField</th>
+            <th>EditSaveDelete</th>
 
           </tr>
         </thead>
         <tbody>
           {users
             .filter((user) => user.name.toLowerCase().includes(filter.toLowerCase()))
-            .map((user) => (
-              <tr >
-                <td>{user.slNo}</td>
+            .map((user, index) => (
+              <tr key={index}>
+                {/* <td>{user.slNo}</td> */}
+                <td>{index+1}</td>
+                <td>
+                        <input
+                          type="text"
+                          defaultValue={editedUsers[user.slNo]?.name || user.name}
+                          onChange={(e) =>
+                            handleEdit(user.slNo, "name", e.target.value)
+                          }
+                        />
+                  </td>
                   <td>
-                  <input
-                    type="text"
-                    defaultValue={user.name}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.organization}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.addressLine1}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.addressLine2}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.city}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.state}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.country}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.zipcode}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.phoneNumber}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.regCode}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.agentAttorney}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.dateOfPatent}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.agentLicensed}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.firmOrOrganization}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-                </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.emailAddress}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.updatedPhoneNumber}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.updatedOrganization}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.firmUrl}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.updatedAddress}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.updatedCity}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.updatedState}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.updatedCountry}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.updatedZipcode}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.linkedInProfile}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.notes}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-                <td>
-                  <input
-                    type="text"
-                    defaultValue={user.initials}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
+                        <input
+                          type="text"
+                          defaultValue={editedUsers[user.slNo]?.organization || user.organization}
+                          onChange={(e) =>
+                            handleEdit(user.slNo, "organization", e.target.value)
+                          }
+                        />
+                  </td>
                   <td>
-                  <input
-                    type="text"
-                    defaultValue={user.dataUpdatedAsOn}
-                    onChange={(e) => {
-                      handleEdit(user.slNo, "name", e.target.value);
-                      
-                    }}
-                    className="editable-input"
-                  />
-              </td>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={user.isChecked || false} 
-                  onChange={(e) => handleCheckboxChange(user.slNo, e.target.checked)}
-                  style={{width:'auto'}}
-                />
-              </td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.addressLine1 || user.addressLine1}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "addressLine1", e.target.value);
 
-              <td style={{width:'auto'}}>
-                <button style={{width:'auto',cursor: 'pointer',fontSize: '10px',padding:'7px', margin: '0'}} onClick={updating}>{loading ? 'edited?' : 'edit'}</button>
-                <button style={{width:'auto', cursor: 'pointer',fontSize: '10px',padding:'7px', margin: '2px'}} onClick={updatingSaveButton}>save</button>
-                <button onClick={showNMessage} className={'dltBtn'} 
-                 style={{
-                  width:'auto',
-                  // background: isHovered ? 'darkred' : 'red',
-                  background: 'red',
-                  color: 'white',
-                  cursor: 'pointer', 
-                  fontSize: '10px',
-                  padding:'7px',
-                  margin: '0'
-                 }}
-                 onMouseEnter={() => setIsHovered(true)}
-                 onMouseLeave={() => setIsHovered(false)}
-                 >delete</button>
-              </td>
-                
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.addressLine2 || user.addressLine2}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "addressLine2", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.city || user.city}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "city", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.state || user.state}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "state", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.country || user.country}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "country", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.zipcode || user.zipcode}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "zipcode", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.phoneNumber || user.phoneNumber}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "phoneNumber", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.regCode || user.regCode}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "regCode", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.agentAttorney || user.agentAttorney}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "agentAttorney", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.dateOfPatent || user.dateOfPatent}
+
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "dateOfPatent", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.agentLicensed || user.agentLicensed}
+
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "agentLicensed", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.firmOrOrganization || user.firmOrOrganization}
+
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "firmOrOrganization", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.updatedPhoneNumber || user.updatedPhoneNumber}
+
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "updatedPhoneNumber", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+
+
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.emailAddress || user.emailAddress}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "emailAddress", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                  </td>
+
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.updatedOrganization || user.updatedOrganization}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "updatedOrganization", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.firmUrl || user.firmUrl}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "firmUrl", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.updatedAddress || user.updatedAddress}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "updatedAddress", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.updatedCity || user.updatedCity}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "updatedCity", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.updatedState || user.updatedState}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "updatedState", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.updatedCountry || user.updatedCountry}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "updatedCountry", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.updatedZipcode || user.updatedZipcode}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "updatedZipcode", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.linkedInProfile || user.linkedInProfile}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "linkedInProfile", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.notes || user.notes}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "notes", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                  <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.initials || user.initials}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "initials", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+                </td>
+                    <td>
+                    <input
+                      type="text"
+                      defaultValue={editedUsers[user.slNo]?.dataUpdatedAsOn || user.dataUpdatedAsOn}
+                      onChange={(e) => {
+                        handleEdit(user.slNo, "dataUpdatedAsOn", e.target.value);
+
+                      }}
+                      className="editable-input"
+                    />
+
+                </td>
+                <td>
+                  <input
+                    type="checkbox"
+                    checked={user.isChecked || false} 
+                    onChange={(e) => handleCheckboxChange(user.slNo, e.target.checked)}
+                    style={{width:'auto'}}
+                  />
+                </td>
+
+                <td style={{width:'auto'}}>
+                  <button style={{width:'auto',cursor: 'pointer',fontSize: '10px',padding:'7px', margin: '0', background:'green'}} onClick={updating}>{loading ? 'edited?' : 'edit'}</button>
+                  <button style={{width:'auto', cursor: 'pointer',fontSize: '10px',padding:'7px', margin: '2px', background:'green'}} onClick={updatingSaveButton}>save</button>
+                  <button onClick={showNMessage} className={'dltBtn'} 
+                  style={{
+                    width:'auto',
+                    // background: isHovered ? 'darkred' : 'red',
+                    background: 'red',
+                    color: 'white',
+                    cursor: 'pointer', 
+                    fontSize: '10px',
+                    padding:'7px',
+                    margin: '0'
+                  }}
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                  >delete</button>
+                </td>
+
               </tr>
             ))}
         </tbody>
       </table>
 
-      
+
       <div className="add-user-form">
         <h3>Add New User</h3>
-        <table class='user-table2'>
+        <table className='user-table2'>
           <tr>
           <td>
                   <input
@@ -801,7 +818,7 @@ const navigate = useNavigate();
                   placeholder="agentAttorney"
                   value={newUser.agentAttorney}
                   onChange={(e) => handleNewUserChange("agentAttorney", e.target.value)}
-                  className="add-user-input"
+                  className="add  -user-input"
                 />
                 </td>
                 <td>
@@ -952,28 +969,29 @@ const navigate = useNavigate();
                 <button onClick={handleAddUser} className="add-user-button"
                 style={{width:'auto',
                   borderRadius:'10px',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+
                 }}>
                   Add User
                 </button>
                 </td>
                 <td>
                 <button onClick={handleUpdateAll} className="Save-button"
-                style={{width:'auto'}}>
+                style={{width:'auto', background:'green'}}>
                 Save
               </button>
                 </td>
           </tr>
         </table>
-        
+
       </div>
 
-     
+
     </div>
      </main>
     </div>
-    
-    
+
+
   );
 };
 

@@ -1,14 +1,24 @@
-
-header h2{
-  font-size: 30px;
+#headerFlex{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-header h2 strong{
-  color: orange;
+
+#headerFlex button{
+  width: auto;
+  height: 40px;
+  border: 1px solid white;
+  text-align: center;
+  padding: 10px;
+}
+img{
+  height: 50px;
+  width: 50px;
 }
 main{
   height: 94vh;
   width: auto;
-  
+
 }
 main h1{
   color: white;
@@ -17,7 +27,7 @@ main h1{
 }
 
 #div11{
-  
+
   width: fit-content;
   padding: 80px 10px 10px 10px;
   display: flex;
@@ -33,7 +43,7 @@ main h1{
   width: fit-content;
   margin: 0 0 0 40% ;
   height: 200px;
- 
+
 }
 #div22 h3{
   padding: 0 0 20px 0;
@@ -45,14 +55,14 @@ main h1{
   border: 1px solid white;
   border-radius: 10px;
   text-align: center;
-  background:  linear-gradient(135deg,#6610f2, #007bff);
+  background: linear-gradient(135deg,#6610f2, #007bff);
   color: white;
   font-size: 16px;
   transition: all 0.3s ease;
 }
 
 #logBtn:hover{
-  background:  linear-gradient(135deg,#007bff,#6610f2);
+  background: linear-gradient(135deg,#007bff,#6610f2);
   color: white;
   outline: double;
 }
@@ -80,7 +90,7 @@ footer {
 }
 
 @media (max-width: 768px) {
-  
+
   main div h1{
     font-size:38px ;
   }
