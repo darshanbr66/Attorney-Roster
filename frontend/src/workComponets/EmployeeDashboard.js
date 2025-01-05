@@ -101,11 +101,13 @@ const UserTable = () => {
       return;
     }
 
-    console.log("Adding user:", newUser);
+    // console.log("Adding user:", newUser);
+    const dataToSend = { ...newUser, userId };
 
+    console.log("Adding user:", dataToSend);
   axios
 
-  .post('http://localhost:3000/api/add-user', newUser)
+  .post('http://localhost:3000/api/add-user', dataToSend)
   // .post(`${process.env.REACT_APP_API_URL}/api/add-user`, newUser)
   .then((response) => {
   console.log(response.data.message);
@@ -722,7 +724,7 @@ function gohome() {
         <h3>Add New User</h3>
         <table className='user-table2'>
           <tr>
-          <td>
+           {/* <td>
                   <input
                   type="text"
                   placeholder="Sl. No"
@@ -730,7 +732,7 @@ function gohome() {
                   onChange={(e) => handleNewUserChange("slNo", e.target.value)}
                   className="add-user-input"
                   />
-                </td>
+                </td> */}
                 <td>
                   <input
                   type="text"

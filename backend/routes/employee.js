@@ -1,14 +1,12 @@
-const express = require("express");
+const router = require('express').Router();
 const UserModel = require("../models/User"); 
 const xlsx = require("xlsx");
 const path = require("path");
 const fs = require("fs");
 
-const router = express.Router();
-
 router.post("/add-user", async (req, res) => {
-  console.log('now inside the add-user section');
-  const { slNo: nextSlNo,
+  console.log('Inside add-user Section');
+  const {
     name,
     organization,
     addressLine1,
@@ -35,13 +33,16 @@ router.post("/add-user", async (req, res) => {
     linkedInProfile,
     notes,
     initials,
-    dataUpdatedAsOn } = req.body;
-
+    dataUpdatedAsOn,
+    userId,
+  } = req.body;
+  console.log('Inside add-user Section and userid:', userId);
   try {
-
+    // Get the next slNo
     const lastUser = await UserModel.findOne().sort({ slNo: -1 }).exec();
-    const nextSlNo = lastUser ? lastUser.slNo + 1 : 1; 
+    const nextSlNo = lastUser ? lastUser.slNo + 1 : 1;
 
+    // Save to MongoDB
     const newUser = new UserModel({
       slNo: nextSlNo,
       name,
@@ -70,18 +71,65 @@ router.post("/add-user", async (req, res) => {
       linkedInProfile,
       notes,
       initials,
-      dataUpdatedAsOn
-
+      dataUpdatedAsOn,
+      userId,
     });
 
     const savedUser = await newUser.save();
-    res.status(201).json({
-      message: "User added successfully",
-      data: savedUser,
-    });
+
+    // Write to Excel file
+    const filePath = path.resolve(__dirname, "../insertData/ActiveAttorneyRoster3.xlsx");
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(500).json({ error: `Excel file not found: ${filePath}` });
+    }
+
+    const workbook = xlsx.readFile(filePath);
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+    const range = worksheet["!ref"];
+    const decodedRange = range ? xlsx.utils.decode_range(range) : { s: { r: 0 }, e: { r: 0 } };
+    const nextRow = decodedRange.e.r + 2;
+
+    worksheet[`A${nextRow}`] = { v: savedUser.slNo };
+    worksheet[`B${nextRow}`] = { v: savedUser.name };
+    worksheet[`C${nextRow}`] = { v: savedUser.organization };
+    worksheet[`D${nextRow}`] = { v: savedUser.addressLine1 };
+    worksheet[`E${nextRow}`] = { v: savedUser.addressLine2 };
+    worksheet[`F${nextRow}`] = { v: savedUser.city };
+    worksheet[`G${nextRow}`] = { v: savedUser.state };
+    worksheet[`H${nextRow}`] = { v: savedUser.country };
+    worksheet[`I${nextRow}`] = { v: savedUser.zipcode };
+    worksheet[`J${nextRow}`] = { v: savedUser.phoneNumber };
+    worksheet[`K${nextRow}`] = { v: savedUser.regCode };
+    worksheet[`L${nextRow}`] = { v: savedUser.agentAttorney };
+    worksheet[`M${nextRow}`] = { v: savedUser.dateOfPatent };
+    worksheet[`N${nextRow}`] = { v: savedUser.agentLicensed };
+    worksheet[`O${nextRow}`] = { v: savedUser.firmOrOrganization };
+    worksheet[`P${nextRow}`] = { v: savedUser.updatedPhoneNumber };
+    worksheet[`Q${nextRow}`] = { v: savedUser.emailAddress };
+    worksheet[`R${nextRow}`] = { v: savedUser.updatedOrganization };
+    worksheet[`S${nextRow}`] = { v: savedUser.firmUrl };
+    worksheet[`T${nextRow}`] = { v: savedUser.updatedAddress };
+    worksheet[`U${nextRow}`] = { v: savedUser.updatedCity };
+    worksheet[`V${nextRow}`] = { v: savedUser.updatedState };
+    worksheet[`W${nextRow}`] = { v: savedUser.updatedCountry };
+    worksheet[`X${nextRow}`] = { v: savedUser.updatedZipcode };
+    worksheet[`Y${nextRow}`] = { v: savedUser.linkedInProfile };
+    worksheet[`Z${nextRow}`] = { v: savedUser.notes };
+    worksheet[`AA${nextRow}`] = { v: savedUser.initials };
+    worksheet[`AB${nextRow}`] = { v: new Date(savedUser.dataUpdatedAsOn).toISOString() };
+    worksheet[`AC${nextRow}`] = { v: savedUser.userId };
+
+    decodedRange.e.r = nextRow - 1;
+    worksheet["!ref"] = xlsx.utils.encode_range(decodedRange);
+
+    xlsx.writeFile(workbook, filePath);
+
+    res.status(201).json({ message: "User added successfully", data: savedUser });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "An error occurred while adding user." });
+    console.error("Error:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 
