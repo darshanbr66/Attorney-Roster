@@ -8,28 +8,40 @@ const HeroSection = () => {
     function gohome(){
         navigate('/HomePage');
         // const reqLogin = () => {
-        // alert('plese login!');
+        //   alert('plese login!');
         // }
       }
   return (
-    <section className="heroSection" id="hero">
+    <div id="allone">
+      <article className="heroSection203">
       <motion.divBtnNames
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 2.5}}
           >
-      <div className="divBtnNames">
-            <div className="logo"><img src="../Triangle-IP-Logo.png" ></img></div>
-
-          <div className="btnNames">
-            {/* <button className="btnNames1"><i class="fas fa-user-plus"></i>Sign up</button> */}
-            <button onClick= {gohome} className="btnNames2"><i class="fas fa-sign-in-alt"></i>Login</button>
-          </div>
-      </div>
+      
+            <div className="logo23"><img src="../Triangle-IP-Logo.png" ></img>
+            </div>
+          
+            
       </motion.divBtnNames>
-      <div className="hero">
+      <motion.divBtnNames
+            initial={{ y: -50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 2.5}}
+          >
+      
+      <div className="btnNames23">
+              {/* <button className="btnNames1"><i class="fas fa-user-plus"></i>Sign up</button> */}
+              <button onClick=  {gohome} className="btnNames22"><i class="fas fa-sign-in-alt"></i>Login</button>
+           
+            </div>
+      </motion.divBtnNames>
+      </article>
+      
+      <div className="heromain1 hero-content">
       <motion.div
-        className="hero-content"
+        // className="hero-content"
         initial={{ opacity: 0, scale: 0.8}}
         animate={{ opacity: 1, scale: 1}}
         transition={{ duration: 1 }}
@@ -37,9 +49,10 @@ const HeroSection = () => {
         <h1>Welcome to Triangle IP</h1>
         <h3 onClick={(() => alert('plese login!'))}>US Patent Attorney Roster</h3>
       </motion.div>
-
+      
       </div>
-    </section>
+    </div>
+  
   );
 };
 

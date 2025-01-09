@@ -31,21 +31,21 @@ function goBack() {
   navigate('/');
 }
   return (
-    <div className="App">
+    <div className="App2">
       <motion.divBtnNames
-                  initial={{ y: -50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 2.5}}
-                >
-      <header id='headerFlex'>
-        <button onClick={goBack}> <i class="fa-solid fa-backward"></i> Go Back</button>
-        <img onClick={gohome} src="../Triangle-IP-Logo.png" ></img>
-        <button> <i class="fa-solid fa-house"></i> Home</button>
-      </header>
-      </motion.divBtnNames>
+                        initial={{ y: -50, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ duration: 2.5}}
+                      >
+            <header id='headerFlex1123'>
+            <button className='button1123' onClick={goBack}> <i class="fa-solid fa-backward"></i> Go Back</button>
+              <img onClick={gohome} src="../Triangle-IP-Logo.png" ></img>
+              <button className='button1123' onClick={gohome}> <i class="fa-solid fa-house"></i> Home</button>
+            </header>
+            </motion.divBtnNames>
       <main>
       <motion.div
-        className="hero-content"
+        className="hero-content2"
         initial={{ opacity: 0, scale: 1}}
         animate={{ opacity: 1, scale: 1}}
         transition={{ duration: 1 }}
@@ -66,7 +66,7 @@ function goBack() {
 
          <br />
 
-            <button id='logBtn' type="submit" onClick={loginSubmit}>Login</button>
+            <button id='logBtnn71' type="submit" onClick={loginSubmit}>Login</button>
           </div>
           </motion.div>
       </main>

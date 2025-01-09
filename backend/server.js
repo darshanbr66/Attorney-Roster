@@ -12,7 +12,8 @@ const app = express();
 
 // CORS setup to allow requests from the frontend
 app.use(cors({
-  origin: 'http://localhost:3001', // Allow requests only from the frontend
+  // origin: 'http://localhost:3000', 
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Explicitly list allowed methods
   allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
 }));
@@ -40,7 +41,7 @@ app.use(express.static("public"));
 //   console.log(`Server is running on port ${PORT}`);
 // });
 
-const PORT = 3000;
+const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

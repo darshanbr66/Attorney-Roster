@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './App.css';
+import './adminLoginPage.css';
 import 'font-awesome/css/font-awesome.min.css';
 import axios from 'axios';
 import { motion } from "framer-motion";
@@ -32,7 +32,7 @@ function LoginPage() {
 
     try {
       // const response = await axios.post(`${API_URL}/api/check-login`, { userId, password, userType });
-      const response = await axios.post('http://localhost:3000/api/check-login', { userId, password, userType });
+      const response = await axios.post('http://localhost:3001/api/check-login', { userId, password, userType });
 
       // console.log("Login Response:", response);
 
@@ -70,22 +70,22 @@ function LoginPage() {
 
 
   return (
-    <div className="App">
+    <div className="App123">
       <motion.divBtnNames
                   initial={{ y: -50, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 2.5}}
                 >
-      <header id='headerFlex'>
-      <button onClick={goBack}> <i class="fa-solid fa-backward"></i> Go Back</button>
+      <header id='headerFlex123'>
+      <button className='button123' onClick={goBack}> <i class="fa-solid fa-backward"></i> Go Back</button>
         <img onClick={gohome} src="../Triangle-IP-Logo.png" ></img>
-        <button> <i class="fa-solid fa-house"></i> Home</button>
+        <button className='button123' onClick={gohome}> <i class="fa-solid fa-house"></i> Home</button>
       </header>
       </motion.divBtnNames>
-      <main>
+      <main id='main123'>
       <h3>Admin Login</h3>
         <form onSubmit={handleLogin}>
-          <div id="div1">
+          <div id="div123">
             <input
               type="text"
               placeholder="Enter User ID"
@@ -95,7 +95,7 @@ function LoginPage() {
             />
             <br />
             <div style={{ position: 'relative' }}>
-              <input id='in2'
+              <input id='in123'
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Enter Password"
                 minLength={8}
@@ -103,21 +103,21 @@ function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 style={{ paddingRight: '2rem' }} // Create space for the icon
               />
-              <span id='toggle'
+              <span id='toggle123'
                 onClick={togglePasswordVisibility}
                 className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
 
               />
             </div>
             <br />
-            <button id="logBtn" type="submit" disabled={loading}>
+            <button className='button123 button1233' type="submit" disabled={loading}>
               {loading ? 'Logging in...' : 'Log in'}
             </button>
           </div>
         </form>
       </main>
       <footer>
-        <p>&copy; 2024 Sigvitas. All rights reserved.</p>
+        <p>&copy; 2024 Triangle IP. All rights reserved.</p>
       </footer>
     </div>
   );

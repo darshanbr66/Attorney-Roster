@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const UserModel = require("../models/User"); 
+const UserLoginsModel = require("../models/Login");
 const xlsx = require("xlsx");
 const path = require("path");
 const fs = require("fs");
@@ -320,5 +321,43 @@ router.get("/fetch-users", async (req, res) => {
     res.status(500).json({ error: "An error occurred while fetching data." });
   }
 });
+
+router.get("/all-users", async (req, res) => {
+  console.log('now inside the all users section');
+
+  try {
+    const users = await UserModel.find();
+    
+    if (!users.length) {
+      console.error(`No data found for userId: ${userId}`);
+      return res.status(404).json({ message: "No data found for this userId" });
+    }
+    res.status(200).json({
+      message: "Data fetched successfully",
+      data: users,
+    });
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: "An error occurred while fetching data." });
+  }
+});
+
+
+router.get("/all-users", async (req, res) => {
+  try {
+    const users = await UserLoginsModel.find();
+    console.log("Fetched users:", users);  // Log the users fetched from the database
+
+    if (users.length === 0) {
+      return res.status(404).json({ message: "No users found." });
+    }
+
+    res.status(200).json({ data: users });
+  } catch (err) {
+    console.error("Error fetching users:", err);  // Log any errors
+    res.status(500).json({ error: "An error occurred while fetching users." });
+  }
+});
+
 
 module.exports = router;

@@ -1,6 +1,6 @@
 .header12{
   text-align: center;
-  width: 7250px;
+  width: 7090px;
   /* min-width: none; */
   /* min-width: 100vb; */
   /* max-width: auto; */
@@ -27,7 +27,7 @@
     text-align: right;
     margin:0;
     font-family: Arial, sans-serif;
-    width: 7250px;
+    width: 7090px;
     display: flex;
     justify-content:space-between;
     flex-grow: 1;
@@ -164,4 +164,7 @@
   border-radius: 2px;
   width: auto;
   font-size: 17.5px;
+}
+.add-user-form h3{
+  color: black;
 }

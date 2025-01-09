@@ -11,7 +11,7 @@ const UserTable = () => {
   const [users, setUsers] = useState([]);
   const location = useLocation();
   const userId = location.state?.userId;
-
+  const admin = users.length > 0 ? users[0].admin : false;
   const [filter, setFilter] = useState("");
   const [editedUsers, setEditedUsers] = useState({});
   const [newUser, setNewUser] = useState({});
@@ -45,11 +45,14 @@ const UserTable = () => {
 
     axios
 
-      .get(`http://localhost:3000/api/fetch-users?userId=${userId}`)
+      .get(`http://localhost:3001/api/fetch-users?userId=${userId}`)
       // // .get(`${API_URL}/api/fetch-users?userId=${userId}`)
       .then((response) => {
         console.log("Response from backend:", response.data);
         setUsers(response.data.data); // Assuming 'data' contains the fetched data
+        // console.log('admin:',response.data.admin);
+        // setAdmin(response.data.admin)
+        
       })
       .catch((error) => {
         console.error("Error fetching users:", error);
@@ -79,7 +82,7 @@ const UserTable = () => {
     console.log("Sending updates to backend:", updates); // Add this line to verify the updates
 
     axios
-      .put('http://localhost:3000/api/update-users', updates)
+      .put('http://localhost:3001/api/update-users', updates)
       .then((response) => {
         console.log(response.data.message);
         fetchUsers(); // Refresh users after update
@@ -96,23 +99,26 @@ const UserTable = () => {
   };
 
   const handleAddUser = () => {
-    if (!newUser.name || !newUser.addressLine1) {
+    if (!newUser.name || !newUser.organization) {
         alert("Please fill all required fields.");
         return;
     }
 
-    const dataToSend = { ...newUser, userId };
+    const dataToSend = { ...newUser, userId, admin};
+      console.log('userId:',userId);
+      console.log('admin:',admin);
 
-    console.log("Adding user:", dataToSend);
+    // console.log("Adding user:", dataToSend);
 
     axios
-        .post('http://localhost:3000/api/add-user', dataToSend)
+        .post('http://localhost:3001/api/add-user', dataToSend)
         .then((response) => {
             console.log(response.data.message);
-            fetchAllUsers(); // Refresh the user list after adding a new user
+            // fetchAllUsers();
             setNewUser({
                 slNo: "",
                 name: "",
+                organization:"",
                 addressLine1: "",
                 addressLine2: "",
                 city: "",
@@ -145,11 +151,10 @@ const UserTable = () => {
             alert("Failed to add user. Please try again.");
         });
 };
-
 // Function to fetch all users
 const fetchAllUsers = () => {
     axios
-        .get('http://localhost:3000/api/fetch-users') // Assuming the endpoint fetches the latest users
+        .get('http://localhost:3001/api/fetch-users') // Assuming the endpoint fetches the latest users
         .then((response) => {
             console.log("Fetched users:", response.data);
             setUsers(response.data.data); // Assuming 'data' is the array of users
@@ -405,6 +410,7 @@ function gohome() {
                           onChange={(e) =>
                             handleEdit(user.slNo, "name", e.target.value)
                           }
+                          className="editable-input"
                         />
                   </td>
                   <td>
@@ -414,6 +420,7 @@ function gohome() {
                           onChange={(e) =>
                             handleEdit(user.slNo, "organization", e.target.value)
                           }
+                          className="editable-input"
                         />
                   </td>
                   <td>
@@ -747,239 +754,249 @@ function gohome() {
                   />
                 </td> */}
                 <td>
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      value={newUser.name}
+                      onChange={(e) => handleNewUserChange("name", e.target.value)}
+                      className="add-user-input"
+                    />
+                </td>
+                <td>
                   <input
-                  type="text"
-                  placeholder="Name"
-                  value={newUser.name}
-                  onChange={(e) => handleNewUserChange("name", e.target.value)}
-                  className="add-user-input"
+                    type="text"
+                    placeholder="Organization"
+                    value={newUser.organization}
+                    onChange={(e) => handleNewUserChange("organization", e.target.value)}
+                    className="add-user-input"
                   />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="Address Line 1"
-                  value={newUser.addressLine1}
-                  onChange={(e) => handleNewUserChange("addressLine1", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Address Line 1"
+                    value={newUser.addressLine1}
+                    onChange={(e) => handleNewUserChange("addressLine1", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="Address Line 2"
-                  value={newUser.addressLine2}
-                  onChange={(e) => handleNewUserChange("addressLine2", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Address Line 2"
+                    value={newUser.addressLine2}
+                    onChange={(e) => handleNewUserChange("addressLine2", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="city"
-                  value={newUser.city}
-                  onChange={(e) => handleNewUserChange("city", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="City"
+                    value={newUser.city}
+                    onChange={(e) => handleNewUserChange("city", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="state"
-                  value={newUser.state}
-                  onChange={(e) => handleNewUserChange("state", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="State"
+                    value={newUser.state}
+                    onChange={(e) => handleNewUserChange("state", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="country"
-                  value={newUser.country}
-                  onChange={(e) => handleNewUserChange("country", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Country"
+                    value={newUser.country}
+                    onChange={(e) => handleNewUserChange("country", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="zipcode"
-                  value={newUser.zipcode}
-                  onChange={(e) => handleNewUserChange("zipcode", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Zipcode"
+                    value={newUser.zipcode}
+                    onChange={(e) => handleNewUserChange("zipcode", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="phoneNumber"
-                  value={newUser.phoneNumber}
-                  onChange={(e) => handleNewUserChange("phoneNumber", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Phone Number"
+                    value={newUser.phoneNumber}
+                    onChange={(e) => handleNewUserChange("phoneNumber", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="regCode"
-                  value={newUser.regCode}
-                  onChange={(e) => handleNewUserChange("regCode", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Reg Code"
+                    value={newUser.regCode}
+                    onChange={(e) => handleNewUserChange("regCode", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="agentAttorney"
-                  value={newUser.agentAttorney}
-                  onChange={(e) => handleNewUserChange("agentAttorney", e.target.value)}
-                  className="add  -user-input"
-                />
+                    type="text"
+                    placeholder="Agent/Attorney"
+                    value={newUser.agentAttorney}
+                    onChange={(e) => handleNewUserChange("agentAttorney", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="dateOfPatent"
-                  value={newUser.dateOfPatent}
-                  onChange={(e) => handleNewUserChange("dateOfPatent", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Date of Patent"
+                    value={newUser.dateOfPatent}
+                    onChange={(e) => handleNewUserChange("dateOfPatent", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="agentLicensed"
-                  value={newUser.agentLicensed}
-                  onChange={(e) => handleNewUserChange("agentLicensed", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Agent Licensed"
+                    value={newUser.agentLicensed}
+                    onChange={(e) => handleNewUserChange("agentLicensed", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="firmOrOrganization"
-                  value={newUser.firmOrOrganization}
-                  onChange={(e) => handleNewUserChange("firmOrOrganization", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Firm or Organization"
+                    value={newUser.firmOrOrganization}
+                    onChange={(e) => handleNewUserChange("firmOrOrganization", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="updatedPhoneNumber"
-                  value={newUser.updatedPhoneNumber}
-                  onChange={(e) => handleNewUserChange("updatedPhoneNumber", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Updated Phone Number"
+                    value={newUser.updatedPhoneNumber}
+                    onChange={(e) => handleNewUserChange("updatedPhoneNumber", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="emailAddress"
-                  value={newUser.emailAddress}
-                  onChange={(e) => handleNewUserChange("emailAddress", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Email Address"
+                    value={newUser.emailAddress}
+                    onChange={(e) => handleNewUserChange("emailAddress", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="updatedOrganization"
-                  value={newUser.updatedOrganization}
-                  onChange={(e) => handleNewUserChange("updatedOrganization", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Updated Organization"
+                    value={newUser.updatedOrganization}
+                    onChange={(e) => handleNewUserChange("updatedOrganization", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="firmUrl"
-                  value={newUser.firmUrl}
-                  onChange={(e) => handleNewUserChange("firmUrl", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Firm/Organization URL"
+                    value={newUser.firmUrl}
+                    onChange={(e) => handleNewUserChange("firmUrl", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="Address Line 2updatedAddress"
-                  value={newUser.updatedAddress}
-                  onChange={(e) => handleNewUserChange("updatedAddress", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Updated Address"
+                    value={newUser.updatedAddress}
+                    onChange={(e) => handleNewUserChange("updatedAddress", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="updatedCity"
-                  value={newUser.updatedCity}
-                  onChange={(e) => handleNewUserChange("updatedCity", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Updated City"
+                    value={newUser.updatedCity}
+                    onChange={(e) => handleNewUserChange("updatedCity", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="updatedState"
-                  value={newUser.updatedState}
-                  onChange={(e) => handleNewUserChange("updatedState", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Updated State"
+                    value={newUser.updatedState}
+                    onChange={(e) => handleNewUserChange("updatedState", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="updatedCountry"
-                  value={newUser.updatedCountry}
-                  onChange={(e) => handleNewUserChange("updatedCountry", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Updated Country"
+                    value={newUser.updatedCountry}
+                    onChange={(e) => handleNewUserChange("updatedCountry", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="updatedZipcode"
-                  value={newUser.updatedZipcode}
-                  onChange={(e) => handleNewUserChange("updatedZipcode", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Updated Zipcode"
+                    value={newUser.updatedZipcode}
+                    onChange={(e) => handleNewUserChange("updatedZipcode", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="linkedInProfile"
-                  value={newUser.linkedInProfile}
-                  onChange={(e) => handleNewUserChange("linkedInProfile", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="LinkedIn Profile"
+                    value={newUser.linkedInProfile}
+                    onChange={(e) => handleNewUserChange("linkedInProfile", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="notes"
-                  value={newUser.notes}
-                  onChange={(e) => handleNewUserChange("notes", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Notes"
+                    value={newUser.notes}
+                    onChange={(e) => handleNewUserChange("notes", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="initials"
-                  value={newUser.initials}
-                  onChange={(e) => handleNewUserChange("initials", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Initials"
+                    value={newUser.initials}
+                    onChange={(e) => handleNewUserChange("initials", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
                 <td>
                   <input
-                  type="text"
-                  placeholder="dataUpdatedAsOn"
-                  value={newUser.dataUpdatedAsOn}
-                  onChange={(e) => handleNewUserChange("dataUpdatedAsOn", e.target.value)}
-                  className="add-user-input"
-                />
+                    type="text"
+                    placeholder="Data Updated As On"
+                    value={newUser.dataUpdatedAsOn}
+                    onChange={(e) => handleNewUserChange("dataUpdatedAsOn", e.target.value)}
+                    className="add-user-input"
+                  />
                 </td>
+
                 <td>
                 <button onClick={handleAddUser} className="add-user-button"
                 style={{width:'auto',

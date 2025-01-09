@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import HomeMain from './components/HomeMain.js';
+import HomeMain from './components/HeroSection.js';
 import HomePage from './homeComponents/home.js';
 import AdminLoginPage from './adminComponets/adminLoginPage.js';
 import AdminDashboard from './adminComponets/adminDashboard.js';
