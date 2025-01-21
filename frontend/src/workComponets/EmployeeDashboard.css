@@ -1,0 +1,170 @@
+.header12{
+  text-align: center;
+  width: 7090px;
+  /* min-width: none; */
+  /* min-width: 100vb; */
+  /* max-width: auto; */
+  justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  cursor: pointer;
+}
+.main3{
+  /* background: linear-gradient(135deg,#6610f2, #007bff); */
+  width: auto;
+  height: auto;
+}
+
+  .title {
+    text-align: center;
+    color: #333;
+  }
+  .Filter-Block{
+    background: linear-gradient(135deg,#007bff, #6610f2);
+    align-content: center;
+    align-items: right;
+    text-align: right;
+    margin:0;
+    font-family: Arial, sans-serif;
+    width: 7090px;
+    display: flex;
+    justify-content:space-between;
+    flex-grow: 1;
+
+  }
+  .Filter-Block1{
+    align-content: center;
+    text-align: center;
+    align-items: center;
+  }
+  .Filter-Block1 h2{
+    text-align: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 900;
+    color: white;
+  }
+  .Filter-Block button{
+    border: 1px solid white;  
+    border-radius: 5px;
+  }
+  .Filter-Block2 select{
+    padding: 9px;
+  }
+  .filter-input {
+    width: auto;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: black;
+  }
+
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    /* table-layout: auto; */
+    /* overflow-wrap: break-word; */
+}
+
+.user-table th, .user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    white-space: nowrap; 
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+}
+
+  .user-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+
+  .editable-input {
+    width: auto;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+
+  .Save-button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; 
+    border-radius: 20px;
+  }
+
+  .Save-button:hover {
+    background-color: #0056b3;
+  }
+
+  .delBtn{
+    background: blue !important;
+    color: white;
+    width: auto;
+  }
+
+  .delBtn:hover{
+    background-color: darkred;
+  }
+  .saveAdd{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .add-user-button {
+    display: block;
+    margin: 20px ;
+    padding: 10px 20px;
+    background-color: green;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer; 
+    border-radius: 20px;
+  }
+
+  .add-user-button:hover {
+    background-color: darkgreen;
+  }
+  .saveAddUser-Block{
+    display: flex;
+    flex-direction: column;
+  }
+  .add-user-form{
+    /* margin: 20px; */
+    font-family: Arial, sans-serif;
+  }
+  .user-table2 {
+    width: 100%;
+    border-collapse: collapse;
+    /* margin: 20px 0; */
+    /* table-layout: auto; */
+    /* overflow-wrap: break-word; */
+}
+
+.user-table2 td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    width: auto;
+    /* white-space: nowrap; */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+}
+.user-table2 td input{
+  border-radius: 2px;
+  width: auto;
+  font-size: 17.5px;
+}
+.add-user-form h3{
+  color: black;
+}
